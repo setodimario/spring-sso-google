@@ -1,10 +1,19 @@
 ## Content
 
-1. [Features](#features)
+1. [Description](#description)
+2. [Features](#features)
 2. [Installation](#installation)
     1. [Despliegue local](#despliegue-local)
     2. [Despliegue como servicio](#despliegue-como-servicio)
 3. [FAQ](#faq)
+
+## Description
+
+El proyecto `Spring-SSO-Google` es una aplicación de demostración que implementa la autenticación de un solo sign-on (SSO) con Google utilizando Spring Boot. Permite a los usuarios autenticarse utilizando sus cuentas de Google a través de `OAuth 2.0`. La configuración de seguridad está definida en la clase `SecurityConfig`, que configura el inicio de sesión de OAuth2 para autenticar solicitudes.
+
+La aplicación está configurada para ser desplegada en diferentes ambientes mediante el uso de perfiles de Maven y propiedades de Spring Boot. Esto permite una fácil gestión de la configuración específica del entorno, como `id` y `secret` de cliente de `OAuth2`, que se deben proporcionar en el archivo `application.yml` correspondiente al entorno.
+
+El punto de entrada principal de la aplicación es la clase `SpringSsoGoogleApplication`, que define dos endpoints: uno en la raíz que da la bienvenida al usuario autenticado mostrando su nombre, apellido y correo electrónico obtenidos de los atributos del token de autenticación de Google, y otro en /user que devuelve el objeto Principal del usuario autenticado.
 
 ## Features
 
