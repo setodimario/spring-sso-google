@@ -1,43 +1,62 @@
 package py.com.seto.google.auth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.Map;
 
 @SpringBootApplication
 @RestController
 public class SpringSsoGoogleApplication {
 
 	@GetMapping
-	public String Welcome(OAuth2AuthenticationToken token) throws JsonProcessingException {
+	public ResponseEntity<String> hello(OAuth2AuthenticationToken token){
+		if (token != null) {
+			// Obtener el nombre, apellido y email del usuario
+			String givenName = token.getPrincipal().getAttribute("given_name");
+			String familyName = token.getPrincipal().getAttribute("family_name");
+			String email = token.getPrincipal().getAttribute("email");
 
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new JavaTimeModule());
+			// Crear un mensaje con la información del usuario
+			String userInfo = String.format("Hello %s %s (email: %s)", givenName, familyName, email);
+			return ResponseEntity.ok(userInfo);
+		}
 
-		// Accede a los atributos del usuario
-		Map<String, Object> attributes = token.getPrincipal().getAttributes();
-		String name = (String) attributes.get("given_name");
-		String lastName = (String) attributes.get("family_name");
-		String email = (String) attributes.get("email");
-
-		// Construye la respuesta
-		String response = "Welcome to Google " + name + " " + lastName;
-		response += " (" + email + ")";
-
-		return response;
+		return ResponseEntity.ok("Hello from secure endpoint");
 	}
 
 	@GetMapping("/user")
 	public Principal user (Principal principal){
 		return principal;
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();  // Invalidar sesión
+		}
+
+		// Limpiar cualquier cookie que pueda ser parte de la sesión
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+			}
+		}
+
+		return "redirect:/";  // Redireccionar a la página de login o home
 	}
 
 	public static void main(String[] args) {

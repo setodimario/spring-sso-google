@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.18</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>py.com.seto</groupId>
 	<artifactId>spring-sso-google</artifactId>
-	<version>0.0.1</version>
+	<version>1.1.0</version>
 	<name>spring-sso-google</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -24,12 +24,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.13.3</version>
 		</dependency>
 
 		<dependency>
