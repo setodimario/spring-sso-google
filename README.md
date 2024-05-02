@@ -30,7 +30,7 @@ OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
 ### Herramientas de desarrollo
 
 * IDE: IntelliJ IDEA [v: 2024.1.1](https://www.jetbrains.com/idea/download/)
-* Framework: [Spring Boot 2.7.18](https://start.spring.io/)
+* Framework: [Spring Boot 3.2.5](https://start.spring.io/)
 * Gestor y constructor de proyectos: [Maven](https://maven.apache.org/)
 
 ## Installation
